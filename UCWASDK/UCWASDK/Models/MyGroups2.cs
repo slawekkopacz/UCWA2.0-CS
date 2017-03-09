@@ -48,7 +48,7 @@ namespace Microsoft.Skype.UCWA.Models
 
             JObject body = new JObject();
             body["displayName"] = displayName;
-            await HttpService.Post(Self, body, "2");
+            await HttpService.Post(Self, body, version: "2");
         }
     }    
 }

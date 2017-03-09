@@ -31,7 +31,7 @@ namespace Microsoft.Skype.UCWA.Models
 
         public async Task ResetContactPrivacyRelationship()
         {
-            await HttpService.Post(Links.resetContactPrivacyRelationship, "", "2");
+            await HttpService.Post(Links.resetContactPrivacyRelationship, "", version: "2");
         }
 
         public async Task Update()

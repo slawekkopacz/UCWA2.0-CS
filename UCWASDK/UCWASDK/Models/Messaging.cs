@@ -82,12 +82,12 @@ namespace Microsoft.Skype.UCWA.Models
             return await HttpService.Get<Conversation>(Links.conversation);
         }
 
-        public async Task SendMessage(string message)
+        public async Task SendMessage(string message, MessageFormat messageFormat = MessageFormat.Plain)
         {
             if (string.IsNullOrEmpty(message))
                 return;
             
-            await HttpService.Post(Links.SendMessage, message);
+            await HttpService.Post(Links.SendMessage, message, messageFormat);
         }
 
         public async Task StopMessaging()

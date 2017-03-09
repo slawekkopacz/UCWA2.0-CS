@@ -83,17 +83,17 @@ namespace Microsoft.Skype.UCWA.Services
             return null;
         }
 
-        static public async Task<string> Post(UCWAHref href, object body, string version = "")
+        static public async Task<string> Post(UCWAHref href, object body, MessageFormat messageFormat = MessageFormat.Plain, string version = "")
         {
             if (href == null || string.IsNullOrEmpty(href.Href))
                 return "";
 
-            return await Post(href.Href, body, version);
+            return await Post(href.Href, body, messageFormat, version);
         }
 
-        static public async Task<string> Post(string uri, object body, string version = "")
+        static public async Task<string> Post(string uri, object body, MessageFormat messageFormat = MessageFormat.Plain, string version = "")
         {
-            HttpResponseMessage response = await PostInternal(uri, body, version);
+            HttpResponseMessage response = await PostInternal(uri, body, messageFormat, version);
 
             if (response.IsSuccessStatusCode)
             {
@@ -108,17 +108,17 @@ namespace Microsoft.Skype.UCWA.Services
             return "";
         }
 
-        static public async Task<T> Post<T>(UCWAHref href, object body, string version = "")
+        static public async Task<T> Post<T>(UCWAHref href, object body, MessageFormat messageFormat = MessageFormat.Plain, string version = "")
         {
             if (href == null || string.IsNullOrEmpty(href.Href))
                 return default(T);
 
-            return await Post<T>(href.Href, body);
+            return await Post<T>(href.Href, body, messageFormat, version);
         }
 
-        static public async Task<T> Post<T>(string uri, object body, string version = "")
+        static public async Task<T> Post<T>(string uri, object body, MessageFormat messageFormat = MessageFormat.Plain, string version = "")
         {
-            HttpResponseMessage response = await PostInternal(uri, body, version);
+            HttpResponseMessage response = await PostInternal(uri, body, messageFormat, version);
 
             if (response.IsSuccessStatusCode)
             {
@@ -198,7 +198,7 @@ namespace Microsoft.Skype.UCWA.Services
             }
         }
 
-        static private async Task<HttpResponseMessage> PostInternal(string uri, object body, string version = "")
+        static private async Task<HttpResponseMessage> PostInternal(string uri, object body, MessageFormat messageFormat = MessageFormat.Plain, string version = "")
         {
             if (string.IsNullOrEmpty(uri))
                 return new HttpResponseMessage();
@@ -223,7 +223,17 @@ namespace Microsoft.Skype.UCWA.Services
                 HttpResponseMessage response = null;
 
                 if (body is string)
-                    response = await client.PostAsync(uri, string.IsNullOrEmpty(body.ToString()) ? null : new StringContent(body.ToString(), Encoding.UTF8));
+                {
+                    StringContent stringContent = null;
+                    if (!string.IsNullOrEmpty(body.ToString()))
+                    {
+                        stringContent = messageFormat == MessageFormat.Html
+                            ? new StringContent(body.ToString(), Encoding.UTF8, "text/html")
+                            : new StringContent(body.ToString(), Encoding.UTF8);
+                    }
+
+                    response = await client.PostAsync(uri, stringContent);
+                }
                 else
                 {
                     JsonSerializerSettings settings = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };

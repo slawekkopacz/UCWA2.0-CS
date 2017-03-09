@@ -44,7 +44,7 @@ namespace Microsoft.Skype.UCWA.Models
 
             var uri = Self + "?contactUri=" + sipName + "&groupId=" + groupId;
 
-            await HttpService.Post(uri, "", "2");
+            await HttpService.Post(uri, "", version: "2");
         }
 
         public async Task RemoveContactFromAllGroups(string sipName)
@@ -54,7 +54,7 @@ namespace Microsoft.Skype.UCWA.Models
             
             var uri = Links.removeContactFromAllGroups.Href + "?contactUri=" + sipName;
 
-            await HttpService.Post(uri, "", "2");
+            await HttpService.Post(uri, "", version: "2");
         }
     }
 }

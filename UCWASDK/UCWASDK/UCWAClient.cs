@@ -891,10 +891,10 @@ namespace Microsoft.Skype.UCWA
         /// </summary>
         /// <param name="text">Reply message text.</param>
         /// <param name="message">Message</param>
-        public async Task ReplyMessage(string text, Message message)
+        public async Task ReplyMessage(string text, Message message, MessageFormat messageFormat = MessageFormat.Plain)
         {
             Messaging messaging = await message.GetMessaging();
-            await messaging?.SendMessage(text);
+            await messaging?.SendMessage(text, messageFormat);
         }
 
         /// <summary>
@@ -902,10 +902,10 @@ namespace Microsoft.Skype.UCWA
         /// </summary>
         /// <param name="text">Reply message text.</param>
         /// <param name="conversation">Conversation</param>
-        public async Task ReplyMessage(string text, Conversation conversation)
+        public async Task ReplyMessage(string text, Conversation conversation, MessageFormat messageFormat = MessageFormat.Plain)
         {
             Messaging messaging = await conversation.GetMessaging();
-            await messaging?.SendMessage(text);
+            await messaging?.SendMessage(text, messageFormat);
         }
 
         /// <summary>
@@ -913,10 +913,10 @@ namespace Microsoft.Skype.UCWA
         /// </summary>
         /// <param name="text">Reply message text.</param>
         /// <param name="messagingInvitation">MessagingInvitation</param>
-        public async Task ReplyMessage(string text, MessagingInvitation messagingInvitation)
+        public async Task ReplyMessage(string text, MessagingInvitation messagingInvitation, MessageFormat messageFormat = MessageFormat.Plain)
         {
             Messaging messaging = await messagingInvitation.GetMessaging();
-            await messaging?.SendMessage(text);
+            await messaging?.SendMessage(text, messageFormat);
         }
 
         /// <summary>
@@ -924,11 +924,11 @@ namespace Microsoft.Skype.UCWA
         /// </summary>
         /// <param name="text">Reply message text.</param>
         /// <param name="onlineMeetingInvitation">OnlineMeetingInvitation</param>
-        public async Task ReplyMessage(string text, OnlineMeetingInvitation onlineMeetingInvitation)
+        public async Task ReplyMessage(string text, OnlineMeetingInvitation onlineMeetingInvitation, MessageFormat messageFormat = MessageFormat.Plain)
         {
             Conversation conversation = await onlineMeetingInvitation.GetConversation();
             Messaging messaging = await conversation?.GetMessaging();
-            await messaging?.SendMessage(text);
+            await messaging?.SendMessage(text, messageFormat);
         }
 
         #endregion

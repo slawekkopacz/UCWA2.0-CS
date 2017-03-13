@@ -994,8 +994,8 @@ namespace Microsoft.Skype.UCWA
                 {
                     return null;
                 }
-                using (HttpClient client = new HttpClient())
-                {
+                //using (HttpClient client = new HttpClient())
+                //{
                     try
                     {
                         var ucwaEvent = await HttpService.Get<UCWAEvent>(eventUri);
@@ -1018,9 +1018,10 @@ namespace Microsoft.Skype.UCWA
                     }
                     catch (Exception ex)
                     {
-                        throw ex;
+                        await Task.Delay(1000);
+                        //throw ex;
                     }
-                }
+                //}
             }
         }
 
